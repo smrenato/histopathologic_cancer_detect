@@ -12,5 +12,14 @@ dependencies = [
     "seaborn>=0.13.2",
 ]
 
+[tool.ruff]
+line-length = 79
+extend-exclude = []
+
 [tool.ruff.format]
-quote-style = 'single'
+preview = true
+quote-style = "single"
+
+[tool.ruff.lint]
+preview = true
+select = ['I', 'F', 'E', 'W', 'PL', 'PT']
