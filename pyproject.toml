@@ -1,0 +1,16 @@
+[project]
+name = "eda-histopatologic-cancer-detect"
+version = "0.1.0"
+description = "Exploratory data analysis of histopatologic cancer data set"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "ipykernel>=6.29.5",
+    "rich>=13.8.1",
+    "ruff>=0.6.4",
+    "scikit-learn>=1.5.2",
+    "seaborn>=0.13.2",
+]
+
+[tool.ruff.format]
+quote-style = 'single'
