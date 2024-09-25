@@ -5,7 +5,10 @@ description = "Exploratory data analysis of histopatologic cancer data set"
 readme = "README.md"
 requires-python = ">=3.12"
 dependencies = [
+    "imagehash>=4.3.1",
     "ipykernel>=6.29.5",
+    "pillow>=10.4.0",
+    "pyment>=0.3.3",
     "rich>=13.8.1",
     "ruff>=0.6.4",
     "scikit-learn>=1.5.2",
