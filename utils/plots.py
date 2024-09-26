@@ -3,7 +3,10 @@ from pathlib import Path
 
 import matplotlib.pyplot as plt
 import numpy as np
+import pandas as pd
 from PIL import Image
+
+from .func import _get_rgb_pixels
 
 
 def plot_img(path: Path, figure_size: tuple[int, int], title: str) -> None:
@@ -34,6 +37,55 @@ def plot_images_on_grid(
         img = Image.open(file)
         plt.subplot(plot_dim, plot_dim, i + 1)
         plt.imshow(img)
+        plt.axis('off')
+
+    plt.tight_layout()
+    plt.show()
+
+
+dim_y = dim_x = lambda sample_size: ceil(sqrt(sample_size))
+
+
+def plot_histogram(
+    labels_train_path: Path, samples: list[Path], title: str
+) -> None:
+    sample_size = len(samples)
+    name_ids = [
+        str(sample_path).split('/')[-1].split('.')[0]
+        for sample_path in samples
+    ]
+
+    labels_train_df = pd.read_csv(labels_train_path)
+
+    labels = labels_train_df[labels_train_df['id'].isin(name_ids)][
+        'label'
+    ].tolist()
+
+    plt.figure(figsize=(10, 10))
+    plt.suptitle(title)
+    for i, file in enumerate(samples):
+        img = Image.open(file)
+        pixels = _get_rgb_pixels(img)
+        plt.subplot(dim_x(sample_size), dim_y(sample_size), i + 1)
+        plt.plot(list(range(0, 256)), pixels['R'], color='red')
+        plt.plot(list(range(0, 256)), pixels['G'], color='green')
+        plt.plot(list(range(0, 256)), pixels['B'], color='blue')
+        plt.title('{} - {}'.format(i, labels[i]))
+
+    plt.tight_layout()
+    plt.show()
+
+
+def plot_imgs_from_histograms(samples: list[Path], title: str):
+    sample_size = len(samples)
+
+    plt.figure(figsize=(10, 10))
+    plt.suptitle(title)
+    for i, file in enumerate(samples):
+        img = Image.open(file)
+        plt.subplot(dim_x(sample_size), dim_y(sample_size), i + 1)
+        plt.imshow(img)
+        plt.title(f'{i}')
         plt.axis('off')
 
     plt.tight_layout()
