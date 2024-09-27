@@ -68,9 +68,10 @@ def get_img_extensions(img_list: list[Path]) -> dict[str, list]:
     return {'extensions': ext}
 
 
+# DEBUG: Fix this funtion, its not working as an expected
 # REVIEW: maybe improve this with hamming approach, but not today!
 def find_similar_images(
-    path_img_list: Path, hash_func: FunctionType = imagehash.average_hash
+    path_img_list: list[Path], hash_func: FunctionType = imagehash.average_hash
 ) -> dict[str, Path]:
     """
     Find similar images based on hash
@@ -87,6 +88,7 @@ def find_similar_images(
         except UnidentifiedImageError:
             print(key)
 
+    hashed_img_dict = {k: v for k, v in hashed_img_dict.items() if len(v) > 1}
     return hashed_img_dict
 
 
