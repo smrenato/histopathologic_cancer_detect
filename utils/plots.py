@@ -5,6 +5,8 @@ import matplotlib.pyplot as plt
 import numpy as np
 import pandas as pd
 from PIL import Image
+from sklearn.cluster import KMeans
+from yellowbrick.cluster import KElbowVisualizer, SilhouetteVisualizer
 
 from .func import _get_rgb_pixels
 
@@ -90,3 +92,36 @@ def plot_imgs_from_histograms(samples: list[Path], title: str):
 
     plt.tight_layout()
     plt.show()
+
+
+def plot_silhouette(
+    clusters: list | np.ndarray,
+    feature_matrix: pd.DataFrame,
+) -> None:
+    plt.figure(figsize=(8, 12))
+    plt.suptitle('Silhouette Plot')
+    for i, cluster in enumerate(clusters, start=1):
+        km = KMeans(
+            n_clusters=cluster,
+            init='k-means++',
+            n_init=10,
+            max_iter=100,
+            random_state=42,
+        )
+        plt.subplot(5, 2, i)
+        visualizer = SilhouetteVisualizer(km, colors='yellowbrick')
+        visualizer.fit(feature_matrix)
+        plt.title(f'Clusters: {cluster}')
+
+    plt.tight_layout()
+    plt.show()
+
+
+def plot_elbow(
+    clusters: list | np.ndarray,
+    feature_matrix: pd.DataFrame,
+) -> None:
+    km = KMeans(init='k-means++', n_init=10, max_iter=100, random_state=42)
+    visualizer = KElbowVisualizer(km, k=clusters)
+    visualizer.fit(feature_matrix)
+    plt.title('Elbow Plot')

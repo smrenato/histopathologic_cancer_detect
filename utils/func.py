@@ -26,7 +26,7 @@ def _get_rgb_pixels(image: Image) -> dict[str, list]:  # noqa: PLR6301
     }
 
 
-def get_path_list(path: list[Path]) -> list[Path]:
+def get_path_list(path: Path) -> list[Path]:
     """
     @param
     """
